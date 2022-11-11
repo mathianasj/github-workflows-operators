@@ -688,7 +688,7 @@ jobs:
   operatorhub-release:
     runs-on: ubuntu-latest
     name: operatorhub-release
-    if: ${{ needs.setup.outputs.tag_event == 'true' && DEPLOY_TO_OPERATORHUB == 'true'}}
+    if: ${{ needs.setup.outputs.tag_event == 'true' && inputs.DEPLOY_TO_OPERATORHUB == 'true'}}
     needs: ["setup", "test-operator", "github-release", "helm-release"]
     env:
       REPOSITORY_NAME: ${{ needs.setup.outputs.repository_name }}
