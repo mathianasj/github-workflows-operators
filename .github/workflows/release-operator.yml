@@ -2,6 +2,11 @@ name: release-operator
 on:
   workflow_call:
     inputs:
+      DEPLOY_TO_OPERATORHUB:
+        description: "Should a PR request be made to deploy to operatorhub"
+        default: true
+        required: false
+        type: string
       OPERATOR_SDK_VERSION:
         description: "Version of Operator SDK Binary for installation"
         default: "v1.9.0"
@@ -683,7 +688,7 @@ jobs:
   operatorhub-release:
     runs-on: ubuntu-latest
     name: operatorhub-release
-    if: ${{ needs.setup.outputs.tag_event == 'true' }}
+    if: ${{ needs.setup.outputs.tag_event == 'true' && DEPLOY_TO_OPERATORHUB == 'true'}}
     needs: ["setup", "test-operator", "github-release", "helm-release"]
     env:
       REPOSITORY_NAME: ${{ needs.setup.outputs.repository_name }}
